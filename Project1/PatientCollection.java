@@ -1,0 +1,293 @@
+//Alex Salas
+//CSCI 3381
+//Project1
+//PatientCollection Class
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+public class PatientCollection <T> implements PatientCollectionADT{
+
+	private ArrayList<Patient> collection = new ArrayList<Patient>();
+
+	//PatientCollection constructor
+	public PatientCollection() {}
+
+	// Return the patient with the given id.  Return void if the id does 
+	// not exist in the collection
+	public Patient getPatient(String id) {
+
+		for(int i = 0; i < collection.size();i++) {
+
+			if(this.getIds().contains(id)){
+
+				return collection.get(i);
+				
+			}
+		}
+
+
+
+//	for(int i = 0; collection.get(i).get_id() != null; i++){
+//
+//		if(id.equals(collection.get(i).get_id())) {
+//			return collection.get(i);
+//		}
+//	}
+	return null;
+}
+
+//removes patient from collection by their ID
+public Patient removePatient(String id) {
+
+	Patient removeMe = new Patient();
+
+	for(int i = 0;; i++){
+
+		if(id.equals(collection.get(i).get_id())) {
+			removeMe = collection.get(i);
+			collection.remove(i);
+			return removeMe;
+		}
+
+		else if(collection.get(i).get_id() == null){
+
+			return null;
+		}
+	}
+}
+
+//sets result for patient using given ID and predictor class
+public void setResultForPatient(String id, String result) {
+
+	double p1 = this.getPatient(id).get_Proteins()[3697]; //1st protein
+	double p2 = this.getPatient(id).get_Proteins()[3258]; //2nd protein
+
+	this.getPatient(id).set_Result(Predictor.predict(p1, p2));
+}
+
+// Return an ArrayList with all of the collection's patient ids
+public ArrayList<String> getIds() {
+
+	ArrayList<String> allIds = new ArrayList<String>();
+
+	for(int i = 0; i < collection.size(); i++) {
+
+		allIds.add(collection.get(i).get_id());
+	}
+
+	return allIds;
+}
+
+//adds patients from file using fileName passed as parameter
+public String addPatientsFromFile(String fileName) {
+
+	BufferedReader lineReader = null;
+	try {
+
+		FileReader fr = new FileReader(fileName);
+		lineReader = new BufferedReader(fr);
+		String line = null;
+		String[] tokens = new String[4776];
+		boolean duplicate = false;
+		boolean proteinArr = false;
+
+		while ((line = lineReader.readLine())!= null) {
+			tokens = line.split(",");
+
+			double arr[] = new double[4776];
+
+			for(int i = 3; i < tokens.length; i++) {
+				arr[i-3] = Double.parseDouble(tokens[i]);
+			}
+
+			int i = 0;
+
+			while(duplicate == false && proteinArr == false && i < collection.size()) {
+
+				if(collection.get(i).get_id() == tokens[0]) {
+					duplicate = true;
+				}
+				else {
+					i++;
+				}
+			}
+
+			if(duplicate == true) {
+				System.out.println("ERROR: Attempted to add patient with duplicate ID. \nPatient was not added to collection.");
+			}
+
+			else if(proteinArr == true) {
+
+				System.out.println("ERROR: Attempted to add patient with incorrect protein data. \nPatient was not add to collection.");
+			}
+
+			else {	
+				Patient newPatient = new Patient(tokens[2],tokens[0], tokens[1], arr);
+				collection.add(newPatient);
+			}
+		}	
+	} catch (Exception e) {
+		System.err.println("");
+		try {
+			lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
+		} catch (Exception e2) {
+			System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
+		} finally {
+			if (lineReader != null)
+				try {
+					lineReader.close();
+				} catch (IOException e2) {
+					System.err.println("could not close BufferedReader");
+				}
+		}			
+	} finally {
+		if (lineReader != null)
+			try {
+				lineReader.close();
+			} catch (IOException e) {
+				System.err.println("could not close BufferedReader");
+			}
+	}
+	// end of readFile method	
+
+	return null;
+}
+
+//adds patients from file using fileName passed as parameter
+public String addNewPatientsFromFile(String fileName) {
+
+	BufferedReader lineReader = null;
+	try {
+
+		FileReader fr = new FileReader(fileName);
+		lineReader = new BufferedReader(fr);
+		String line = null;
+		String[] tokens = new String[4776];
+
+		while ((line = lineReader.readLine())!= null) {
+
+			boolean duplicate = false;
+			boolean proteinArr = false;
+
+			tokens = line.split(",");
+
+			double arr[] = new double[4776];
+
+			for(int i = 3; i < tokens.length; i++) {
+				arr[i-3] = Double.parseDouble(tokens[i]);
+			}
+
+			int i = 0;
+
+			while(duplicate == false && proteinArr == false && i < collection.size()) {
+
+				if(collection.get(i).get_id().equals(tokens[0])) {
+					duplicate = true;
+				}
+				i++;
+			}
+
+			if(duplicate == true) {
+				System.out.println("ERROR: Attempted to add patient with duplicate ID. \nPatient was not added to collection.");
+			}
+
+			else if(proteinArr == true) {
+
+				System.out.println("ERROR: Attempted to add patient with incorrect protein data. \nPatient was not add to collection.");
+			}
+
+			else {	
+				Patient newPatient = new Patient(tokens[0], "unknown", "unknown", arr);
+				collection.add(newPatient);
+			}
+		}	
+	} catch (Exception e) {
+		System.err.println("");
+		try {
+			lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
+		} catch (Exception e2) {
+			System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
+		} finally {
+			if (lineReader != null)
+				try {
+					lineReader.close();
+				} catch (IOException e2) {
+					System.err.println("could not close BufferedReader");
+				}
+		}			
+	} finally {
+		if (lineReader != null)
+			try {
+				lineReader.close();
+			} catch (IOException e) {
+				System.err.println("could not close BufferedReader");
+			}
+	}
+	// end of readFile method	
+
+	return null;
+}
+
+public void doWrite(String fn) {
+	// this method writes all of the data in the persons array to a file
+	try
+	{
+		FileWriter fw = new FileWriter(fn);
+		BufferedWriter myOutfile = new BufferedWriter(fw);			
+
+		ArrayList<String> idList = new ArrayList<String>();
+		idList = this.getIds();
+		
+		
+		
+		for(int i = 0; i < idList.size(); i++) {
+			
+			System.out.println(idList.get(i));
+			
+			if(idList.contains(Integer.toString(i))){
+		
+//			
+//				myOutfile.write(this.getPatient(idList.get(i)).get_id() + ",");
+//				myOutfile.write(this.getPatient(idList.get(i)).get_Result() + ",");
+//				myOutfile.write(this.getPatient(idList.get(i)).get_Prediction() + ",");
+				
+				myOutfile.write(this.getPatient(Integer.toString(i)).get_id() + ",");
+				myOutfile.write(this.getPatient(Integer.toString(i)).get_Result() + ",");
+				myOutfile.write(this.getPatient(Integer.toString(i)).get_Prediction() + ",");
+
+				for(int j = 0; j < 4775; j++) {
+					myOutfile.write(Double.toString(this.getPatient(Integer.toString(i)).get_Proteins()[j]) + ",");
+				}
+				
+				myOutfile.write("\n");		
+			}
+		}
+
+
+		myOutfile.flush();
+		myOutfile.close();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+		System.err.println("Didn't save to " + fn);
+	}
+}	
+
+//collection to_String method
+public void to_String() {
+
+	int index = 0;
+
+	while(index < collection.size()) {
+		System.out.println(collection.get(index)); 
+		index++;
+	}
+}
+
+}
