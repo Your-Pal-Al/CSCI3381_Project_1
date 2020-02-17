@@ -22,23 +22,22 @@ public class PatientCollection <T> implements PatientCollectionADT{
 	// not exist in the collection
 	public Patient getPatient(String id) {
 
-		for(int i = 0; i < collection.size();i++) {
-
-			if(this.getIds().contains(id)){
-
-				return collection.get(i);
-				
-			}
-		}
-
-
-
-//	for(int i = 0; collection.get(i).get_id() != null; i++){
+//		for(int i = 0; i < collection.size();i++) {
 //
-//		if(id.equals(collection.get(i).get_id())) {
-//			return collection.get(i);
+//			if(this.getIds().contains(id)){
+//				
+//				
+//				return collection.get(i);
+//				
+//			}
 //		}
-//	}
+		
+		int num = Integer.parseInt(id);
+		
+		if(this.getIds().contains(id)) {
+			return collection.get(getIds().indexOf(id));
+		}
+		
 	return null;
 }
 
@@ -244,11 +243,9 @@ public void doWrite(String fn) {
 		ArrayList<String> idList = new ArrayList<String>();
 		idList = this.getIds();
 		
+		int max = Integer.parseInt(idList.get(idList.size()-1));
 		
-		
-		for(int i = 0; i < idList.size(); i++) {
-			
-			System.out.println(idList.get(i));
+		for(int i = 0; i <= max; i++) {
 			
 			if(idList.contains(Integer.toString(i))){
 		
