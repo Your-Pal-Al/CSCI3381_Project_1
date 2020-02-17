@@ -3,7 +3,6 @@
 //Project1
 //PatientCollection Interface
 
-
 import java.util.ArrayList;
 
 public interface PatientCollectionADT {
@@ -33,5 +32,4 @@ public interface PatientCollectionADT {
 	public String toString ();
 	// Return a String representation of the collection.  
 	// Only include the 3697th and 3258th values in that order. 
-
 }

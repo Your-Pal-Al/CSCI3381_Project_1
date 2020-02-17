@@ -9,7 +9,7 @@ public class Patient {
 	private String prediction; // unknown, predCR, predDP
 	private String id; 
 	private double[] proteins; //4776 proteins, significant: [3697], [3258]
-	
+
 	//default constructor
 	public Patient(){
 		result = null;
@@ -18,7 +18,7 @@ public class Patient {
 		proteins = null;
 	}
 
-	//Patient constructor
+	//Patient constructor, parameterized
 	public Patient(String pID, String pResult, String pPred, double [] pPro){
 		result = pResult;
 		prediction = pPred;
@@ -30,11 +30,11 @@ public class Patient {
 	public String get_Result(){
 		return result;
 	}
-	
+
 	//result setter, sets result
 	public void set_Result(String res) {
 		if(res != null) {
-		result = res;
+			result = res;
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Patient {
 	public String get_id(){
 		return id;
 	}
-	
+
 	//protein getter, returns array of pateint proteins
 	public double[] get_Proteins() {
 		return proteins;
