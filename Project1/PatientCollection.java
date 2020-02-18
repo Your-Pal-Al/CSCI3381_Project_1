@@ -15,11 +15,11 @@ public class PatientCollection <T> implements PatientCollectionADT{
 
 	private ArrayList<Patient> collection = new ArrayList<Patient>();
 	private String fileName = null;
-	
+
 
 	//PatientCollection constructor
 	public PatientCollection() {
-		
+
 		fileName = "./data.csv" ;
 	}
 
@@ -123,10 +123,10 @@ public class PatientCollection <T> implements PatientCollectionADT{
 				}
 
 				else {	
-					
+
 					double p1 = arr[3697]; //1st protein
 					double p2 = arr[3258]; //2nd protein
-					
+
 					Patient newPatient = new Patient(tokens[2],tokens[0], Predictor.predict(p1, p2), arr);
 					collection.add(newPatient);
 				}
@@ -202,10 +202,10 @@ public class PatientCollection <T> implements PatientCollectionADT{
 				}
 
 				else {	
-					
+
 					double p1 = arr[3697]; //1st protein
 					double p2 = arr[3258]; //2nd protein
-					
+
 					Patient newPatient = new Patient(tokens[0], "unknown", Predictor.predict(p1, p2), arr);
 					collection.add(newPatient);
 				}

@@ -16,20 +16,24 @@ public class Tester {
 		//prints patient 1
 		System.out.println(PC.getPatient("1"));
 
-
 		//prints all patients in PC
 		PC.to_String();
 
 		//adds patients from newdata.csv file
 		PC.addPatientsFromFile("./newdata.csv");
 
-		//set results for patient ID == 30
-		//PC.setResultForPatient("30", "unknown");
+		//removes patient 1 from file
+		PC.removePatient("1");
 
 		//prints out IDS of all patients
 		System.out.println(PC.getIds());
 
-		//prints patient 30
+		//sets result for patient 2 to "inconclusive"
+		PC.setResultForPatient("2", "inconclusive");
+
+		System.out.println(PC.getPatient("2"));
+
+		//patient 31 doesnt exist, prints error
 		System.out.println(PC.getPatient("31"));
 
 		//prints added patients in PC
