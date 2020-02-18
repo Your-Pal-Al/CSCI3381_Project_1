@@ -14,9 +14,14 @@ import java.util.ArrayList;
 public class PatientCollection <T> implements PatientCollectionADT{
 
 	private ArrayList<Patient> collection = new ArrayList<Patient>();
+	private String fileName = null;
+	
 
 	//PatientCollection constructor
-	public PatientCollection() {}
+	public PatientCollection() {
+		
+		fileName = "./data.csv" ;
+	}
 
 	// Return the patient with the given id.  Return void if the id does 
 	// not exist in the collection
@@ -59,10 +64,7 @@ public class PatientCollection <T> implements PatientCollectionADT{
 	//sets result for patient using given ID and predictor class
 	public void setResultForPatient(String id, String result) {
 
-		double p1 = this.getPatient(id).get_Proteins()[3697]; //1st protein
-		double p2 = this.getPatient(id).get_Proteins()[3258]; //2nd protein
-
-		this.getPatient(id).set_Result(Predictor.predict(p1, p2));
+		this.getPatient(id).set_Result(result);
 	}
 
 	// Return an ArrayList with all of the collection's patient ids
@@ -78,7 +80,7 @@ public class PatientCollection <T> implements PatientCollectionADT{
 	}
 
 	//adds patients from file using fileName passed as parameter
-	public String addPatientsFromFile(String fileName) {
+	public String addPatientsFromFile() {
 
 		BufferedReader lineReader = null;
 		try {
@@ -121,7 +123,11 @@ public class PatientCollection <T> implements PatientCollectionADT{
 				}
 
 				else {	
-					Patient newPatient = new Patient(tokens[2],tokens[0], tokens[1], arr);
+					
+					double p1 = arr[3697]; //1st protein
+					double p2 = arr[3258]; //2nd protein
+					
+					Patient newPatient = new Patient(tokens[2],tokens[0], Predictor.predict(p1, p2), arr);
 					collection.add(newPatient);
 				}
 			}	
@@ -153,7 +159,7 @@ public class PatientCollection <T> implements PatientCollectionADT{
 	}
 
 	//adds patients from file using fileName passed as parameter
-	public String addNewPatientsFromFile(String fileName) {
+	public String addPatientsFromFile(String fileName) {
 
 		BufferedReader lineReader = null;
 		try {
@@ -196,7 +202,11 @@ public class PatientCollection <T> implements PatientCollectionADT{
 				}
 
 				else {	
-					Patient newPatient = new Patient(tokens[0], "unknown", "unknown", arr);
+					
+					double p1 = arr[3697]; //1st protein
+					double p2 = arr[3258]; //2nd protein
+					
+					Patient newPatient = new Patient(tokens[0], "unknown", Predictor.predict(p1, p2), arr);
 					collection.add(newPatient);
 				}
 			}	

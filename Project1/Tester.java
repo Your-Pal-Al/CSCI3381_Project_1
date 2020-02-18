@@ -11,7 +11,7 @@ public class Tester {
 		PatientCollection<Patient> PC = new PatientCollection<Patient>();
 
 		//adds patients from original data file
-		PC.addPatientsFromFile("./data.csv");
+		PC.addPatientsFromFile();
 
 		//prints patient 1
 		System.out.println(PC.getPatient("1"));
@@ -21,7 +21,7 @@ public class Tester {
 		PC.to_String();
 
 		//adds patients from newdata.csv file
-		PC.addNewPatientsFromFile("./newdata.csv");
+		PC.addPatientsFromFile("./newdata.csv");
 
 		//set results for patient ID == 30
 		//PC.setResultForPatient("30", "unknown");
